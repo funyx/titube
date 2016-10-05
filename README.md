@@ -14,5 +14,7 @@
 
 # Install
 `git clone https://github.com/funyx/titube --depth=0
+
 npm i
+
 npm start`
