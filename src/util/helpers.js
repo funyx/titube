@@ -16,7 +16,15 @@ export class VIDEO {
   }
   bestQuality = () => {
     //add #t=[start_time][,end_time] to the media URL.
-    let v = `<video controls autoplay>
+    let v = `<!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <title>${this.data.title}</title>
+      </head>
+      <body>
+
+      <video controls autoplay style="width:100%" poster="${this.data.iurlmaxres}">
       <source src="${this.data.url_encoded_fmt_stream_map.url[0]}"
               type='${this.data.url_encoded_fmt_stream_map.type[0]}'/>`;
       // v += `<track kind="subtitles" label="Italian" srclang="it" src="https://m.youtube.com/api/timedtext?sparams=asr_langs%2Ccaps%2Cv%2Cexpire&amp;signature=05ED52879297D56CE654812BAD0135D819C71391.7CB95227425238C954573B04A51310857D65E438&amp;asr_langs=ru%2Cko%2Cen%2Cpt%2Cde%2Cja%2Cit%2Cfr%2Cnl%2Ces&amp;hl=en-US&amp;expire=1475730347&amp;key=yttt1&amp;v=2QOx7vmjV2E&amp;caps=asr&amp;type=track&amp;lang=it&amp;name&amp;kind&amp;fmt=vtt">`;
@@ -36,7 +44,8 @@ export class VIDEO {
         v+= `<track label="${this.data.caption_tracks.n}" kind="subtitles" srclang="${this.data.caption_tracks.lc}" src="/pipe?url=${src}" default>`;
       }
     }
-    v += `</video>`;
+    v += `</video></body>
+  </html>`;
     return v;
   }
 }
