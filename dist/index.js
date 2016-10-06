@@ -12,10 +12,6 @@ var _cheerio = require('cheerio');
 
 var _cheerio2 = _interopRequireDefault(_cheerio);
 
-var _base = require('base-64');
-
-var _base2 = _interopRequireDefault(_base);
-
 var _helpers = require('./util/helpers');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -42,7 +38,7 @@ app.get('/debug', function (req, res) {
 });
 app.get('/pipe', function (req, res) {
     if (req.query.url) {
-        (0, _request2.default)(_base2.default.decode(req.query.url), function (err, response, resp) {
+        (0, _request2.default)(new Buffer(req.query.url, 'base64').toString('ascii'), function (err, response, resp) {
             if (err) return res.send(err);
             res.send(resp);
         });

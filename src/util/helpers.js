@@ -1,5 +1,4 @@
 import querystring from 'querystring';
-import base64 from 'base-64';
 export class VIDEO {
   constructor(data){
     this.data = querystring.parse(data);
@@ -32,16 +31,22 @@ export class VIDEO {
       if(Array.isArray(this.data.caption_tracks.n)){
         for(let i=0;i<this.data.caption_tracks.n.length;i++){
           if(i===0){
-            let src = base64.encode(this.data.caption_tracks.u[i]+'&fmt=vtt&type=track');
-            v+= `<track label="${this.data.caption_tracks.n[i]}" kind="subtitles" srclang="${this.data.caption_tracks.lc[i]}" src="/pipe?url=${src}" default>`;
+            let src = new Buffer(this.data.caption_tracks.u[i]+'&fmt=vtt&type=track').toString('base64'),
+                label = this.data.caption_tracks.n[i],
+                iso = this.data.caption_tracks.lc[i];
+            v+= `<track label="${label}" kind="subtitles" srclang="${iso}" src="/pipe?url=${src}" default>`;
           }else{
-            let src = base64.encode(this.data.caption_tracks.u[i]+'&fmt=vtt&type=track');
-            v+= `<track label="${this.data.caption_tracks.n[i]}" kind="subtitles" srclang="${this.data.caption_tracks.lc[i]}" src="/pipe?url=${src}">`;
+            let src = new Buffer(this.data.caption_tracks.u[i]+'&fmt=vtt&type=track').toString('base64'),
+                label = this.data.caption_tracks.n[i],
+                iso = this.data.caption_tracks.lc[i];
+            v+= `<track label="${label}" kind="subtitles" srclang="${iso}" src="/pipe?url=${src}">`;
           }
         }
       }else{
-        let src = base64.encode(this.data.caption_tracks.u+'&fmt=vtt&type=track');
-        v+= `<track label="${this.data.caption_tracks.n}" kind="subtitles" srclang="${this.data.caption_tracks.lc}" src="/pipe?url=${src}" default>`;
+        let src = new Buffer(this.data.caption_tracks.u+'&fmt=vtt&type=track').toString('base64'),
+            label = this.data.caption_tracks.n,
+            iso = this.data.caption_tracks.lc;
+        v+= `<track label="${label}" kind="subtitles" srclang="${iso}" src="/pipe?url=${src}" default>`;
       }
     }
     v += `</video></body>

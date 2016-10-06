@@ -13,7 +13,6 @@
   "author": "Dimitar Dobchev <ddobchev@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "base-64": "^0.1.0",
     "cheerio": "^0.22.0",
     "express": "^4.14.0",
     "request": "^2.75.0"

@@ -1,7 +1,6 @@
 import express from 'express';
 import request from 'request';
 import cheerio from 'cheerio';
-import base64 from 'base-64';
 import {
   VIDEO
 } from './util/helpers';
@@ -27,7 +26,7 @@ app.get('/debug', (req, res) => {
 });
 app.get('/pipe', (req,res) => {
   if(req.query.url){
-    request(base64.decode(req.query.url), (err, response, resp) => {
+    request(new Buffer(req.query.url, 'base64').toString('ascii'), (err, response, resp) => {
       if(err) return res.send(err);
       res.send(resp);
     });

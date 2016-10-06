@@ -11,10 +11,6 @@ var _querystring = require('querystring');
 
 var _querystring2 = _interopRequireDefault(_querystring);
 
-var _base = require('base-64');
-
-var _base2 = _interopRequireDefault(_base);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -27,25 +23,25 @@ var VIDEO = exports.VIDEO = function () {
 
     this.bestQuality = function () {
       //add #t=[start_time][,end_time] to the media URL.
-      var v = '<video controls autoplay>\n      <source src="' + _this.data.url_encoded_fmt_stream_map.url[0] + '"\n              type=\'' + _this.data.url_encoded_fmt_stream_map.type[0] + '\'/>';
+      var v = '<!DOCTYPE html>\n    <html>\n      <head>\n        <meta charset="utf-8">\n        <title>' + _this.data.title + '</title>\n      </head>\n      <body>\n\n      <video controls autoplay style="width:100%" poster="' + _this.data.iurlmaxres + '">\n      <source src="' + _this.data.url_encoded_fmt_stream_map.url[0] + '"\n              type=\'' + _this.data.url_encoded_fmt_stream_map.type[0] + '\'/>';
       // v += `<track kind="subtitles" label="Italian" srclang="it" src="https://m.youtube.com/api/timedtext?sparams=asr_langs%2Ccaps%2Cv%2Cexpire&amp;signature=05ED52879297D56CE654812BAD0135D819C71391.7CB95227425238C954573B04A51310857D65E438&amp;asr_langs=ru%2Cko%2Cen%2Cpt%2Cde%2Cja%2Cit%2Cfr%2Cnl%2Ces&amp;hl=en-US&amp;expire=1475730347&amp;key=yttt1&amp;v=2QOx7vmjV2E&amp;caps=asr&amp;type=track&amp;lang=it&amp;name&amp;kind&amp;fmt=vtt">`;
       if (_this.data.caption_tracks) {
         if (Array.isArray(_this.data.caption_tracks.n)) {
           for (var i = 0; i < _this.data.caption_tracks.n.length; i++) {
             if (i === 0) {
-              var src = _base2.default.encode(_this.data.caption_tracks.u[i] + '&fmt=vtt&type=track');
+              var src = new Buffer(_this.data.caption_tracks.u[i] + '&fmt=vtt&type=track').toString('base64');
               v += '<track label="' + _this.data.caption_tracks.n[i] + '" kind="subtitles" srclang="' + _this.data.caption_tracks.lc[i] + '" src="/pipe?url=' + src + '" default>';
             } else {
-              var _src = _base2.default.encode(_this.data.caption_tracks.u[i] + '&fmt=vtt&type=track');
+              var _src = new Buffer(_this.data.caption_tracks.u[i] + '&fmt=vtt&type=track').toString('base64');
               v += '<track label="' + _this.data.caption_tracks.n[i] + '" kind="subtitles" srclang="' + _this.data.caption_tracks.lc[i] + '" src="/pipe?url=' + _src + '">';
             }
           }
         } else {
-          var _src2 = _base2.default.encode(_this.data.caption_tracks.u + '&fmt=vtt&type=track');
+          var _src2 = new Buffer(_this.data.caption_tracks.u + '&fmt=vtt&type=track').toString('base64');
           v += '<track label="' + _this.data.caption_tracks.n + '" kind="subtitles" srclang="' + _this.data.caption_tracks.lc + '" src="/pipe?url=' + _src2 + '" default>';
         }
       }
-      v += '</video>';
+      v += '</video></body>\n  </html>';
       return v;
     };
 
